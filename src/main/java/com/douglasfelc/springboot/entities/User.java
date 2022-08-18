@@ -3,15 +3,36 @@ package com.douglasfelc.springboot.entities;
 import java.io.Serializable;
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity //Indica uma entidade (classe relacionada a uma tabela do banco de dados) - modelo relacional
+
+/**
+ * Classe de usuário
+ * Serializable: necessário para enviar objetos pela rede, salvar no disco, ou comunicar de uma JVM com outra.
+ */
 public class User implements Serializable {
+	/* Como a classe é Serializable, é necessário um número de série.
+	 * Inicialmente você pode definir como 1L (número padrão), e depois,  
+	 * se você fizer alguma alteração estrutural incompatível com versões anteriores, 
+	 * você mudará o serialVersionUID para 2L. Em uma outra alteração, mudará para 3L e assim por diante. 
+	 * Obviamente, se a alteração for pequena e nenhuma incompatibilidade for introduzida, você não deve alterar o serialVersionUID. */
 	private static final long serialVersionUID = 1L;
 
+	//Atributos básicos
+	@Id //Define a chave primária
+	@GeneratedValue(strategy = GenerationType.SEQUENCE) //Autoincrementável
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
 	
+	
+	//Construtores
 	public User() {
 	}
 
@@ -24,6 +45,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	
+	//Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -64,6 +87,8 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
+	
+	//hashCode and equals
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
