@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity //Indica uma entidade (classe relacionada a uma tabela do banco de dados) - modelo relacional
 @Table(name = "tb_user") //Nome da tabela no banco de dados
 
@@ -29,13 +31,14 @@ public class User implements Serializable {
 
 	//Atributos básicos
 	@Id //Define a chave primária
-	@GeneratedValue(strategy = GenerationType.SEQUENCE) //Autoincrementável
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincrementável
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
 	
+	@JsonIgnore //Necessária em um dos lados pelo menos, quando existe uma associação de mão dupla (Dentro do pedido tem a associação com o usuário, e dentro do usuário tem a lista de pedidos), ou seja, o pedido chama o usuário e o usuário chama o pedido, formando um loop infinito. Essa annotation evita que isso ocorra.
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	

@@ -1,5 +1,6 @@
 package com.douglasfelc.springboot.config;
 
+import java.time.Instant;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.douglasfelc.springboot.entities.Order;
 import com.douglasfelc.springboot.entities.User;
+import com.douglasfelc.springboot.repositories.OrderRepository;
 import com.douglasfelc.springboot.repositories.UserRepository;
 
 @Configuration //Indicar para o Spring que é uma classe específica de configuração
@@ -22,15 +25,26 @@ public class TestConfig implements CommandLineRunner {
 
 	@Autowired //Para o Spring resolver a dependência e associar uma instância de UserRepository
 	private UserRepository userRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
 		//Instanciado objetos tipo User
 		User u1 = new User(null, "Jennifer Gonzalez", "gonzalez@gmail.com", "49999881112", "123456");
 		User u2 = new User(null, "Fabrício Fernandez", "fernandez@gmail.com", "49999881113", "123456");
-		
-		//Salvar os objetos no banco de dados
+
+		//Salva os usuários no banco de dados
 		userRepository.saveAll(Arrays.asList(u1, u2));
+		
+		//Instanciado objetos tipo Order
+		Order o1 = new Order(null, Instant.parse("2022-06-20T19:53:07Z"), u1);
+		Order o2 = new Order(null, Instant.parse("2022-07-21T03:42:10Z"), u2);
+		Order o3 = new Order(null, Instant.parse("2022-07-22T15:21:22Z"), u1);
+		
+		//Salva os pedidos no banco de dados
+		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 	}
 
 }

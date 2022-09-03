@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity //Indica uma entidade (classe relacionada a uma tabela do banco de dados) - modelo relacional
 @Table(name = "tb_order") //Nome da tabela no banco de dados
 
@@ -23,8 +25,10 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id //Define a chave primária
-	@GeneratedValue(strategy = GenerationType.SEQUENCE) //Autoincrementável
+	@GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincrementável
 	private Long id;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT") //Para formatar a visualização da data em formato GMT
 	private Instant moment;
 	
 	@ManyToOne
