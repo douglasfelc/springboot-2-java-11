@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import com.douglasfelc.springboot.entities.Category;
 import com.douglasfelc.springboot.entities.Order;
+import com.douglasfelc.springboot.entities.OrderItem;
 import com.douglasfelc.springboot.entities.Product;
 import com.douglasfelc.springboot.entities.User;
 import com.douglasfelc.springboot.entities.enums.OrderStatus;
 import com.douglasfelc.springboot.repositories.CategoryRepository;
+import com.douglasfelc.springboot.repositories.OrderItemRepository;
 import com.douglasfelc.springboot.repositories.OrderRepository;
 import com.douglasfelc.springboot.repositories.ProductRepository;
 import com.douglasfelc.springboot.repositories.UserRepository;
@@ -39,6 +41,9 @@ public class TestConfig implements CommandLineRunner {
 	
 	@Autowired
 	private ProductRepository productRepository;
+	
+	@Autowired
+	private OrderItemRepository orderItemRepository;
 	
 	@Override
 	public void run(String... args) throws Exception {
@@ -90,6 +95,16 @@ public class TestConfig implements CommandLineRunner {
 		
 		//Salva os pedidos no banco de dados
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+		
+		
+		//Instanciando os itens do pedidos
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		//Salva os itens dos pedidos
+		orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 
 }

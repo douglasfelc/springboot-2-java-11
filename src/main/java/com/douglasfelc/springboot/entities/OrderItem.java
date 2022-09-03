@@ -8,14 +8,15 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.douglasfelc.springboot.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_order_item")
 public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@EmbeddedId //Id composto
-	private OrderItemPK id;
+	@EmbeddedId //Id composto, deve ser sempre instanciado
+	private OrderItemPK id = new OrderItemPK();
 	
 	private Integer quantity;
 	private Double price;
@@ -31,6 +32,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	@JsonIgnore //Esse que ta chamando o pedido que esta associado ao item do pedido
 	public Order getOrder() {
 		return id.getOrder();
 	}
